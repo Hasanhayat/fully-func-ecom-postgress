@@ -68,6 +68,7 @@ app.post("login", async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
+    
 
     // Generate token
     const token = jwt.sign(
