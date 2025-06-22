@@ -1,25 +1,15 @@
-import { useState } from 'react'
-import React from 'react'
-import {Route,  Routes } from 'react-router'
-import Login from './pages/Login'
-import './App.css'
-import Signup from './pages/Signup'
+// App.jsx
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-function App() {
-
-  return (
-    <>
+<ThemeProvider theme={theme}>
+  <CssBaseline />
+  <ToastContainer position="top-right" theme="dark" />
+  <Container maxWidth="sm" sx={{ py: 5 }}>
     <Routes>
-      <Route path="/" element={<Login/>} />
-      <Route path="/login" element={<Login/>} />
-      <Route path="/signup" element={<Signup/>} />
-      <Route path="*" element={<h1>404 Not Found</h1>} /> 
-      
-
+      <Route path="/" element={<Login />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
     </Routes>
-    
-    </>
-  )
-}
-
-export default App
+  </Container>
+</ThemeProvider>
