@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/sign-up", async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  let { firstName, lastName, email, password } = req.body;
   email = email.toLowerCase();
   try {
     if (!firstName || !lastName || !email || !password) {
@@ -33,8 +33,8 @@ app.post("/sign-up", async (req, res) => {
     }
 
     // Hash password
-    const salt = bcrypt.genSalySync(10);
-    const hashedPassword = bcrypt.hastSync(password, salt);
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
     // new user
     await db.query(
       "INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2, $3, $4)",
@@ -48,8 +48,8 @@ app.post("/sign-up", async (req, res) => {
   }
 });
 
-app.post("login", async (req, res) => {
-  const { email, password } = req.body;
+app.post("/login", async (req, res) => {
+  let { email, password } = req.body;
   email = email.toLowerCase();
   if (!email || !password) {
     return res.status(400).json({ error: "Email and password are required" });
