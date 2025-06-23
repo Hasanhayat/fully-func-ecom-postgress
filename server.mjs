@@ -1,8 +1,11 @@
 import express from "express";
-import db from "./db.js";
+import db from "./db.mjs";
 import cors from "cors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import path from "path";
+import "dotenv/config";
+
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -11,9 +14,6 @@ const JWT_SECRET = process.env.SECRET_TOKEN;
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Welcome to the API");
-});
 
 app.post("/sign-up", async (req, res) => {
   let { firstName, lastName, email, password } = req.body;
@@ -94,6 +94,12 @@ app.post("/login", async (req, res) => {
     console.error("Error during login:", error);
     res.status(500).json({ error: "Internal server error" });
   }
+});
+
+let __dirname = path.resolve();
+// app.use(express.static(path.join(__dirname, 'frontend', 'build')));
+app.get("*splat", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
 });
 
 
