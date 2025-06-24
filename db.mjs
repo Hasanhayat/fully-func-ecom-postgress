@@ -11,5 +11,4 @@ const db = new Pool({
     rejectUnauthorized: false,
   },
 });
-
 export default db;
