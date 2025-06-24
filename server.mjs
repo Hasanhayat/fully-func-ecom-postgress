@@ -97,10 +97,7 @@ app.post("/login", async (req, res) => {
 });
 
 let __dirname = path.resolve();
-// app.use(express.static(path.join(__dirname, 'frontend', 'build')));
-app.get("*splat", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
-});
+app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
 
 
 app.listen(PORT, () => {
