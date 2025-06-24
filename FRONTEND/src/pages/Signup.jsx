@@ -27,7 +27,7 @@ const Signup = () => {
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const res = await axios.post('http://localhost:3002/sign-up', values);
+        const res = await axios.post('/sign-up', values);
         toast.success(res.data.message);
         navigate('/login');
         formik.resetForm();

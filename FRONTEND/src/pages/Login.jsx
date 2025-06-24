@@ -18,7 +18,7 @@ const Login = () => {
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const res = await axios.post('http://localhost:3002/login', values);
+        const res = await axios.post('/login', values);
         toast.success(res.data.message);
         formik.resetForm();
       } catch (err) {
