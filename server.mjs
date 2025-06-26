@@ -98,6 +98,8 @@ app.post("/login", async (req, res) => {
 
 let __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
+app.use('/', express.static(path.join(__dirname, './frontend/dist')))
+app.use("/*splat" , express.static(path.join(__dirname, 'frontend', 'dist')));
 
 
 app.listen(PORT, () => {
