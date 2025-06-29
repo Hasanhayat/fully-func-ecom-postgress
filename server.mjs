@@ -14,6 +14,10 @@ const JWT_SECRET = process.env.SECRET_TOKEN;
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to the E-commerce API" });
+});
+
 
 app.post("/sign-up", async (req, res) => {
   let { firstName, lastName, email, password } = req.body;
