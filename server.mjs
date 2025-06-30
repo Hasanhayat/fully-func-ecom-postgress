@@ -153,15 +153,15 @@ app.use("/*splat", (req, res, next) => {
 });
 
 app.post("/products", async (req, res) => {
-  const { name, description, price, image } = req.body;
+  const { name, description, price, image, category_id } = req.body;
   try {
-    if (!name || !description || !price || !image) {
+    if (!name || !description || !price || !image || !category_id) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
     const newProduct = await db.query(
-      "INSERT INTO products (name, description, price, image) VALUES ($1, $2, $3, $4) RETURNING *",
-      [name, description, price, image]
+      "INSERT INTO products (name, description, price, image, category_id) VALUES ($1, $2, $3, $4) RETURNING *",
+      [name, description, price, image, category_id]
     );
 
     res.status(201).json(newProduct.rows[0]);
