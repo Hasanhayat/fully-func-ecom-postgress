@@ -4,8 +4,8 @@ import cors from "cors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import path from "path";
+import cookieParser from "cookie-parser";
 import "dotenv/config";
-
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -13,6 +13,7 @@ const JWT_SECRET = process.env.SECRET_TOKEN;
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to the E-commerce API" });
@@ -71,7 +72,6 @@ app.post("/login", async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
-    
 
     // Generate token
     const token = jwt.sign(
@@ -99,15 +99,83 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// Middleware to check JWT token
+app.use("/*splat", (req, res, next) => {
+  const token = req.cookies.Token;
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+    req.user = decoded;
+    next();
+  });
+});
 
-app.get("/products", async (req , res) => {
-  
-})
+app.get("/profile", (req, res) => {
+  const user = req.user;
+  try {
+    let result = db.query("SELECT * FROM users WHERE id = $1", [user.id]);
+    res.send({ message: "User profile", user: result.rows[0] });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/logout", (req, res) => {
+  res.clearCookie("Token", {
+    httpOnly: true,
+    secure: true,
+    maxAge: 0, // Clear the cookie
+  });
+  res.json({ message: "Logout successful" });
+});
+
+app.get("/products", async (req, res) => {
+  try {
+    const products = await db.query("SELECT * FROM products");
+    res.json(products.rows);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+//middeware to check if user is admin
+app.use("/*splat", (req, res, next) => {
+  const user = req.user;
+  if (user.user_role !== "1") {
+    return res.status(403).json({ error: "Forbidden: Admins only" });
+  }
+  next();
+});
+
+app.post("/products", async (req, res) => {
+  const { name, description, price, image } = req.body;
+  try {
+    if (!name || !description || !price || !image) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const newProduct = await db.query(
+      "INSERT INTO products (name, description, price, image) VALUES ($1, $2, $3, $4) RETURNING *",
+      [name, description, price, image]
+    );
+
+    res.status(201).json(newProduct.rows[0]);
+  } catch (error) {
+    console.error("Error adding product:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Middleware to serve static files
 let __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
-app.use('/', express.static(path.join(__dirname, './frontend/dist')))
-app.use("/*splat" , express.static(path.join(__dirname, 'frontend', 'dist')));
-
+app.use(express.static(path.join(__dirname, "frontend", "dist")));
+app.use("/", express.static(path.join(__dirname, "./frontend/dist")));
+app.use("/*splat", express.static(path.join(__dirname, "frontend", "dist")));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
