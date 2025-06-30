@@ -152,6 +152,33 @@ app.use("/*splat", (req, res, next) => {
   next();
 });
 
+app.get("/categories", async (req, res) => {
+  try {
+    const categories = await db.query("SELECT * FROM categories");
+    res.json(categories.rows);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/categories", async (req, res) => {
+  const { name } = req.body;
+  try {
+    if (!name) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+    const newCategory = await db.query(
+      "INSERT INTO categories (name) VALUES ($1) RETURNING *",
+      [name, description]
+    );
+    res.status(201).json(newCategory.rows[0]);
+  } catch (error) {
+    console.error("Error adding category:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 app.post("/products", async (req, res) => {
   const { name, description, price, image, category_id } = req.body;
   try {
