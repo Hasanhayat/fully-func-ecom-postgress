@@ -18,7 +18,6 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to the E-commerce API" });
 });
 
-
 app.post("/sign-up", async (req, res) => {
   let { firstName, lastName, email, password } = req.body;
   email = email.toLowerCase();
@@ -100,6 +99,10 @@ app.post("/login", async (req, res) => {
   }
 });
 
+
+app.get("/products", async (req , res) => {
+  
+})
 let __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
 app.use('/', express.static(path.join(__dirname, './frontend/dist')))
