@@ -135,7 +135,9 @@ app.post("/logout", (req, res) => {
 
 app.get("/products", async (req, res) => {
   try {
-    const products = await db.query("SELECT * FROM products");
+    const products = await db.query(
+      "SELECT name, description, price, image, category_name FROM products INNER JOIN categories ON products.category_id = categories.id"
+    );
     res.json(products.rows);
   } catch (error) {
     console.error("Error fetching products:", error);
