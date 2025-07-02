@@ -164,6 +164,7 @@ app.get("/categories", async (req, res) => {
   }
 });
 
+
 app.post("/categories", async (req, res) => {
   const { name } = req.body;
   try {
