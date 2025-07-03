@@ -143,7 +143,8 @@ app.get("/products", async (req, res) => {
     console.error("Error fetching products:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-});
+})
+
 
 //middeware to check if user is admin
 app.use("/*splat", (req, res, next) => {
