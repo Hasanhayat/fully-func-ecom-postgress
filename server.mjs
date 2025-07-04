@@ -15,6 +15,10 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
+app.get("/api/v1/", (req, res) => {
+  res.send("Welcome to the E-commerce API");
+});
+
 app.post("/api/v1/sign-up", async (req, res) => {
   let { firstName, lastName, email, password } = req.body;
   email = email.toLowerCase();

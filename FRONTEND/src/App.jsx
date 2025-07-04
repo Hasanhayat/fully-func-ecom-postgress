@@ -18,22 +18,22 @@ function App() {
   const { state, dispatch } = React.useContext(GlobalContext);
 
   // Fetch user on initial load
-  React.useEffect(() => {
-    const checkLogin = async () => {
-      try {
-        const res = await axios.get("https://fully-func-ecom-postgress.vercel.app/api/v1/profile");
-        dispatch({ type: "USER_LOGIN", user: res.data.user });
-      } catch (err) {
-        dispatch({ type: "USER_LOGOUT" }); 
-      }
-    };
-    checkLogin();
-  }, [dispatch]);
+  // React.useEffect(() => {
+  //   const checkLogin = async () => {
+  //     try {
+  //       const res = await axios.get("https://fully-func-ecom-postgress.vercel.app/api/v1/profile");
+  //       dispatch({ type: "USER_LOGIN", user: res.data.user });
+  //     } catch (err) {
+  //       dispatch({ type: "USER_LOGOUT" }); 
+  //     }
+  //   };
+  //   checkLogin();
+  // }, [dispatch]);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <ToastContainer position="top-right" theme="dark" />
+      <ToastContainer position="bottom-right" theme="dark" />
       <Container sx={{ py: 5 }}>
         {state.isLogin ? (
           <>
