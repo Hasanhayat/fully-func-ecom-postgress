@@ -66,6 +66,7 @@ app.post("/api/v1/sign-up", async (req, res) => {
     res.cookie("Token", token, {
       httpOnly: true,
       secure: true,
+      sameSite: "None",
       maxAge: 86400000, //1 day
     });
 
@@ -113,6 +114,7 @@ app.post("/api/v1/login", async (req, res) => {
     res.cookie("Token", token, {
       httpOnly: true,
       secure: true,
+      sameSite: "None",
       maxAge: 86400000, //1 day
     });
 

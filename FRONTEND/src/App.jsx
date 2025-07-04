@@ -18,6 +18,8 @@ axios.defaults.withCredentials = true; // Important for sending cookies
 function App() {
   const { state, dispatch } = React.useContext(GlobalContext);
 
+  
+
   // Fetch user on initial load
   React.useEffect(() => {
     const checkLogin = async () => {
