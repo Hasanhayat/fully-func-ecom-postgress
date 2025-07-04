@@ -15,7 +15,6 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-
 app.post("/api/v1/sign-up", async (req, res) => {
   let { firstName, lastName, email, password } = req.body;
   email = email.toLowerCase();
@@ -41,6 +40,28 @@ app.post("/api/v1/sign-up", async (req, res) => {
       "INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2, $3, $4)",
       [firstName, lastName, email, hashedPassword]
     );
+
+    let user = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+
+    //jwt token
+    const token = jwt.sign(
+      {
+        id: user.rows[0].id,
+        email: user.rows[0].email,
+        firstName: user.rows[0].first_name,
+        lastName: user.rows[0].last_name,
+        user_role: user.rows[0].role || "4", // Default role if not set
+        iat: Date.now() / 1000,
+        exp: Date.now() / 1000 + 1000 * 60 * 60 * 24,
+      },
+      JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+    res.cookie("Token", token, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 86400000, //1 day
+    });
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -81,7 +102,8 @@ app.post("/api/v1/login", async (req, res) => {
         iat: Date.now() / 1000,
         exp: Date.now() / 1000 + 1000 * 60 * 60 * 24,
       },
-      JWT_SECRET
+      JWT_SECRET,
+      { expiresIn: "1d" }
     );
     res.cookie("Token", token, {
       httpOnly: true,
@@ -111,10 +133,10 @@ app.use("/api/v1/*splat", (req, res, next) => {
   });
 });
 
-app.get("/api/v1/profile", (req, res) => {
+app.get("/api/v1/profile", async (req, res) => {
   const user = req.user;
   try {
-    let result = db.query("SELECT * FROM users WHERE id = $1", [user.id]);
+    let result = await db.query("SELECT * FROM users WHERE id = $1", [user.id]);
     res.send({ message: "User profile", user: result.rows[0] });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
@@ -140,8 +162,7 @@ app.get("/api/v1/products", async (req, res) => {
     console.error("Error fetching products:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-})
-
+});
 
 //middeware to check if user is admin
 app.use("/api/v1/*splat", (req, res, next) => {
@@ -161,7 +182,6 @@ app.get("/api/v1/categories", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
 
 app.post("/api/v1/categories", async (req, res) => {
   const { name } = req.body;
