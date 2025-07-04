@@ -56,7 +56,6 @@ app.post("/api/v1/sign-up", async (req, res) => {
         lastName: user.rows[0].last_name,
         user_role: user.rows[0].role || "4", // Default role if not set
         iat: Date.now() / 1000,
-        exp: Date.now() / 1000 + 1000 * 60 * 60 * 24,
       },
       JWT_SECRET,
       { expiresIn: "1d" }
@@ -104,7 +103,6 @@ app.post("/api/v1/login", async (req, res) => {
         lastName: user.rows[0].last_name,
         user_role: user.rows[0].role || "4", // Default role if not set
         iat: Date.now() / 1000,
-        exp: Date.now() / 1000 + 1000 * 60 * 60 * 24,
       },
       JWT_SECRET,
       { expiresIn: "1d" }
@@ -118,7 +116,7 @@ app.post("/api/v1/login", async (req, res) => {
     res.json({ message: "Login successful", user: user.rows[0] });
   } catch (error) {
     console.error("Error during login:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error",msg:error});
   }
 });
 
