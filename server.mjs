@@ -15,11 +15,8 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the E-commerce API" });
-});
 
-app.post("/sign-up", async (req, res) => {
+app.post("/api/v1/sign-up", async (req, res) => {
   let { firstName, lastName, email, password } = req.body;
   email = email.toLowerCase();
   try {
@@ -52,7 +49,7 @@ app.post("/sign-up", async (req, res) => {
   }
 });
 
-app.post("/login", async (req, res) => {
+app.post("/api/v1/login", async (req, res) => {
   let { email, password } = req.body;
   email = email.toLowerCase();
   if (!email || !password) {
@@ -100,7 +97,7 @@ app.post("/login", async (req, res) => {
 });
 
 // Middleware to check JWT token
-app.use("/*splat", (req, res, next) => {
+app.use("/api/v1/*splat", (req, res, next) => {
   const token = req.cookies.Token;
   if (!token) {
     return res.status(401).json({ error: "Unauthorized" });
@@ -114,7 +111,7 @@ app.use("/*splat", (req, res, next) => {
   });
 });
 
-app.get("/profile", (req, res) => {
+app.get("/api/v1/profile", (req, res) => {
   const user = req.user;
   try {
     let result = db.query("SELECT * FROM users WHERE id = $1", [user.id]);
@@ -124,7 +121,7 @@ app.get("/profile", (req, res) => {
   }
 });
 
-app.post("/logout", (req, res) => {
+app.post("/api/v1/logout", (req, res) => {
   res.clearCookie("Token", {
     httpOnly: true,
     secure: true,
@@ -133,7 +130,7 @@ app.post("/logout", (req, res) => {
   res.json({ message: "Logout successful" });
 });
 
-app.get("/products", async (req, res) => {
+app.get("/api/v1/products", async (req, res) => {
   try {
     const products = await db.query(
       "SELECT name, description, price, image, category_name FROM products INNER JOIN categories ON products.category_id = categories.id"
@@ -147,7 +144,7 @@ app.get("/products", async (req, res) => {
 
 
 //middeware to check if user is admin
-app.use("/*splat", (req, res, next) => {
+app.use("/api/v1/*splat", (req, res, next) => {
   const user = req.user;
   if (user.user_role !== "1") {
     return res.status(403).json({ error: "Forbidden: Admins only" });
@@ -155,7 +152,7 @@ app.use("/*splat", (req, res, next) => {
   next();
 });
 
-app.get("/categories", async (req, res) => {
+app.get("/api/v1/categories", async (req, res) => {
   try {
     const categories = await db.query("SELECT * FROM categories");
     res.json(categories.rows);
@@ -166,7 +163,7 @@ app.get("/categories", async (req, res) => {
 });
 
 
-app.post("/categories", async (req, res) => {
+app.post("/api/v1/categories", async (req, res) => {
   const { name } = req.body;
   try {
     if (!name) {
@@ -183,7 +180,7 @@ app.post("/categories", async (req, res) => {
   }
 });
 
-app.post("/products", async (req, res) => {
+app.post("/api/v1/products", async (req, res) => {
   const { name, description, price, image, category_id } = req.body;
   try {
     if (!name || !description || !price || !image || !category_id) {
