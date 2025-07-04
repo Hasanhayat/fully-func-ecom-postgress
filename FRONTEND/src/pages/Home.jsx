@@ -2,28 +2,29 @@ import React from 'react';
 
 const Home = () => {
   return (
-    <main className="bg-[#260c1a] min-h-screen text-[#edbfc6]">
-      <section className="max-w-7xl mx-auto px-4 py-20 flex flex-col md:flex-row items-center justify-between gap-10">
+    <main className="bg-gradient-to-b from-[#1a0611] to-[#260c1a] min-h-screen text-[#f4d7dc] font-sans">
+      <section className="max-w-7xl mx-auto px-6 py-24 flex flex-col md:flex-row items-center justify-between gap-16">
+        
         {/* Left Content */}
-        <div className="flex-1">
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-            Discover Your <span className="text-[#af8d86]">Style</span><br />
-            with BuyTech
+        <div className="flex-1 animate-fade-in-up">
+          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-6 tracking-tight">
+            Discover Your <span className="text-[#e2b4a9]">Style</span><br />
+            with <span className="text-[#f9e6e0]">BuyTech</span>
           </h1>
-          <p className="text-[#ffffffb3] mb-6">
-            Browse thousands of fashion pieces that match your vibe.
+          <p className="text-[#ffffffbb] text-lg mb-8 max-w-lg">
+            Explore a curated collection of fashion essentials that define who you are.
           </p>
-          <button className="bg-[#af8d86] hover:bg-[#edbfc6] text-[#260c1a] font-medium py-2 px-6 rounded-md transition">
+          <button className="bg-[#e2b4a9] hover:bg-[#f4d7dc] text-[#260c1a] font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
             Shop Now
           </button>
         </div>
 
         {/* Right Image */}
-        <div className="flex-1">
+        <div className="flex-1 animate-fade-in">
           <img
-            src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246"
+            src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=80"
             alt="Fashion Model"
-            className="rounded-xl shadow-lg w-full object-cover"
+            className="rounded-3xl shadow-2xl w-full h-[500px] object-cover border border-[#af8d86]/20"
           />
         </div>
       </section>
