@@ -27,7 +27,7 @@ const Login = () => {
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const res = await axios.post('https://fully-func-ecom-postgress.vercel.app/login', values);
+        const res = await axios.post('https://fully-func-ecom-postgress.vercel.app/api/v1/login', values);
         toast.success(res.data.message);
         dispatch({ type: 'USER_LOGIN', user: res.data.user });
         formik.resetForm();
