@@ -11,6 +11,7 @@ import { GlobalContext } from "./context/Context";
 import Home from "./pages/Home";
 import Nav from "./components/Nav";
 import "./App.css";
+import api from "./api";
 
 axios.defaults.withCredentials = true; // Important for sending cookies
 
@@ -21,7 +22,7 @@ function App() {
   React.useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await axios.get("https://fully-func-ecom-postgress.vercel.app/api/v1/profile");
+        const res = await api.get("/profile");
         dispatch({ type: "USER_LOGIN", user: res.data.user });
       } catch (err) {
         dispatch({ type: "USER_LOGOUT" }); 

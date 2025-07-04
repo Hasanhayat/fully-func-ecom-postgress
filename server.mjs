@@ -12,8 +12,8 @@ const PORT = process.env.PORT || 3002;
 const JWT_SECRET = process.env.SECRET_TOKEN;
 
 app.use(cors({
-  origin: "https://fully-func-ecom-postgress.vercel.app", // ya production URL
-  credentials: true, // This enables cookies to be sent/received
+  origin: "http://localhost:5173", // ya deployed frontend URL
+  credentials: true,
 }));
 app.use(express.json());
 app.use(cookieParser());
@@ -118,7 +118,7 @@ app.post("/api/v1/login", async (req, res) => {
 
     res.json({ message: "Login successful", user: user.rows[0] });
   } catch (error) {
-    console.error("Error during login:", error);
+    console.log("Error during login:", error);
     res.status(500).json({ error: "Internal server error",msg:error});
   }
 });

@@ -13,6 +13,7 @@ import {
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router';
 import { GlobalContext } from '../context/Context';
+import api from '../api';
 
 const Signup = () => {
   const [loading, setLoading] = React.useState(false);
@@ -35,7 +36,7 @@ const Signup = () => {
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const res = await axios.post('https://fully-func-ecom-postgress.vercel.app/api/v1/sign-up', values);
+        const res = await api.post('/sign-up', values);
         toast.success(res.data.message);
         dispatch({ type: 'USER_LOGIN', user: res.data.user });
         formik.resetForm();
