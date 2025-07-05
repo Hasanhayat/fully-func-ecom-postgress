@@ -12,9 +12,11 @@ import Home from "./pages/Home";
 import Nav from "./components/Nav";
 import "./App.css";
 import api from "./api";
-import { Loader2 } from "lucide-react";
+import { Loader2, Users } from "lucide-react";
 import Admin from "./admin/Admin";
 import Shop from "./pages/Shop";
+import AddProduct from "./admin/AddProduct";
+import AllUsers from "./admin/AllUsers";
 
 axios.defaults.withCredentials = true; // Important for sending cookies
 
@@ -55,7 +57,10 @@ function App() {
             <Nav />
             <Routes>
               <Route path="/admin" element={<Admin />} />
+              <Route path="/addproduct" element={<AddProduct />} />
+              <Route path="/users" element={<AllUsers />} />
               <Route path="*" element={<Home />} />
+              <Route path="/shop" element={<Shop />} />
             </Routes>
           </>
         ) : state.isLogin ? (

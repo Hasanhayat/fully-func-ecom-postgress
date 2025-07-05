@@ -162,7 +162,7 @@ app.post("/api/v1/logout", (req, res) => {
 app.get("/api/v1/products", async (req, res) => {
   try {
     const products = await db.query(
-      "SELECT name, description, price, image, category_name FROM products INNER JOIN categories ON products.category_id = categories.id"
+      "SELECT name, description, price, image, category_name FROM products INNER JOIN categories ON products.category_id = categories.category_id"
     );
     res.json(products.rows);
   } catch (error) {
@@ -174,8 +174,8 @@ app.get("/api/v1/products", async (req, res) => {
 //middeware to check if user is admin
 app.use("/api/v1/*splat", (req, res, next) => {
   const user = req.user;
-  if (user.user_role !== "1") {
-    return res.status(403).json({ error: "Forbidden: Admins only" });
+  if (user.user_role !== 1) {
+    return res.status(403).json({ error: "Forbidden: Admins only",user });
   }
   next();
 });
@@ -197,8 +197,8 @@ app.post("/api/v1/categories", async (req, res) => {
       return res.status(400).json({ error: "All fields are required" });
     }
     const newCategory = await db.query(
-      "INSERT INTO categories (name) VALUES ($1) RETURNING *",
-      [name, description]
+      "INSERT INTO categories (category_name) VALUES ($1) RETURNING *",
+      [name]
     );
     res.status(201).json(newCategory.rows[0]);
   } catch (error) {
@@ -215,14 +215,14 @@ app.post("/api/v1/products", async (req, res) => {
     }
 
     const newProduct = await db.query(
-      "INSERT INTO products (name, description, price, image, category_id) VALUES ($1, $2, $3, $4) RETURNING *",
+      "INSERT INTO products (name, description, price, image, category_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
       [name, description, price, image, category_id]
     );
 
     res.status(201).json(newProduct.rows[0]);
   } catch (error) {
     console.error("Error adding product:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error"});
   }
 });
 
