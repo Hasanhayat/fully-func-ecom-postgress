@@ -20,6 +20,7 @@ const Shop = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [maxPrice, setMaxPrice] = useState(500000);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchData();
@@ -33,18 +34,24 @@ const Shop = () => {
     setProducts(productRes.data);
     setFiltered(productRes.data);
     setCategories(categoryRes.data);
+    setLoading(false);
   };
 
   useEffect(() => {
     let result = products;
     if (selectedCategory) {
-      result = result.filter(
-        (item) => item.category_name === selectedCategory
-      );
+      result = result.filter((item) => item.category_name === selectedCategory);
     }
     result = result.filter((item) => item.price <= maxPrice);
     setFiltered(result);
   }, [selectedCategory, maxPrice]);
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-[#260c1a]">
+        <PackageSearch className="animate-spin text-white" size={48} />
+      </div>
+    );
+  }
 
   return (
     <main className="bg-[#260c1a] min-h-screen text-white px-4 py-10">
@@ -114,8 +121,8 @@ const Shop = () => {
                 color: "#edbfc6",
                 boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
                 transition: "transform 0.2s",
-                '&:hover': {
-                  transform: 'scale(1.02)',
+                "&:hover": {
+                  transform: "scale(1.02)",
                 },
               }}
             >

@@ -11,10 +11,12 @@ const app = express();
 const PORT = process.env.PORT || 3002;
 const JWT_SECRET = process.env.SECRET_TOKEN;
 
-app.use(cors({
-  origin: "http://localhost:5173", // ya deployed frontend URL
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173", // ya deployed frontend URL
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
@@ -121,7 +123,7 @@ app.post("/api/v1/login", async (req, res) => {
     res.json({ message: "Login successful", user: user.rows[0] });
   } catch (error) {
     console.log("Error during login:", error);
-    res.status(500).json({ error: "Internal server error",msg:error});
+    res.status(500).json({ error: "Internal server error", msg: error });
   }
 });
 
@@ -171,15 +173,6 @@ app.get("/api/v1/products", async (req, res) => {
   }
 });
 
-//middeware to check if user is admin
-app.use("/api/v1/*splat", (req, res, next) => {
-  const user = req.user;
-  if (user.user_role !== 1) {
-    return res.status(403).json({ error: "Forbidden: Admins only",user });
-  }
-  next();
-});
-
 app.get("/api/v1/categories", async (req, res) => {
   try {
     const categories = await db.query("SELECT * FROM categories");
@@ -188,6 +181,15 @@ app.get("/api/v1/categories", async (req, res) => {
     console.error("Error fetching categories:", error);
     res.status(500).json({ error: "Internal server error" });
   }
+});
+
+//middeware to check if user is admin
+app.use("/api/v1/*splat", (req, res, next) => {
+  const user = req.user;
+  if (user.user_role !== 1) {
+    return res.status(403).json({ error: "Forbidden: Admins only" });
+  }
+  next();
 });
 
 app.post("/api/v1/categories", async (req, res) => {
@@ -222,14 +224,16 @@ app.post("/api/v1/products", async (req, res) => {
     res.status(201).json(newProduct.rows[0]);
   } catch (error) {
     console.error("Error adding product:", error);
-    res.status(500).json({ error: "Internal server error"});
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 app.get("/api/v1/users", async (req, res) => {
   try {
-    const users = await db.query("SELECT id, first_name, last_name, email, profile_img, role, phone, created_at FROM users");
-    res.json({message: "Users fetched successfully", users: users.rows});
+    const users = await db.query(
+      "SELECT id, first_name, last_name, email, profile_img, role, phone, created_at FROM users"
+    );
+    res.json({ message: "Users fetched successfully", users: users.rows });
   } catch (error) {
     console.error("Error fetching users:", error);
     res.status(500).json({ error: "Internal server error" });
