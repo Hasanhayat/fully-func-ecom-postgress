@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router'; // Fixed router import
 
 const Home = () => {
   return (
@@ -12,20 +12,22 @@ const Home = () => {
             Discover Your <span className="text-[#e2b4a9]">Style</span><br />
             with <span className="text-[#f9e6e0]">BuyTech</span>
           </h1>
-          <p className="text-[#ffffffbb] text-lg mb-8 max-w-lg">
-            Explore a curated collection of fashion essentials that define who you are.
+          <p className="text-[#ffffffcc] text-lg mb-8 max-w-md">
+            Embrace the fusion of fashion and tech. Shop the trendiest looks, now just a click away.
           </p>
-          <button className="bg-[#e2b4a9] hover:bg-[#f4d7dc] text-[#260c1a] font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-            <Link to='/shop'>Shop Now</Link>
-          </button>
+          <Link to='/shop'>
+            <button className="bg-[#e2b4a9] hover:bg-[#f4d7dc] text-[#260c1a] font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+              Shop Now
+            </button>
+          </Link>
         </div>
 
         {/* Right Image */}
         <div className="flex-1 animate-fade-in">
           <img
-            src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=80"
-            alt="Fashion Model"
-            className="rounded-3xl shadow-2xl w-full h-[500px] object-cover border border-[#af8d86]/20"
+            src="https://images.unsplash.com/photo-1513521712264-512ceb91a940?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA1fHxzdG9yZXxlbnwwfHwwfHx8MA%3D%3D"
+            alt="Trendy Fashion Technology"
+            className="rounded-[2rem] shadow-2xl w-full h-[500px] object-cover border border-[#f3d7d3]/20 transition-transform duration-500 hover:scale-[1.02]"
           />
         </div>
       </section>
