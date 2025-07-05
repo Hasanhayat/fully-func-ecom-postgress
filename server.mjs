@@ -13,7 +13,7 @@ const JWT_SECRET = process.env.SECRET_TOKEN;
 
 app.use(
   cors({
-    origin: "https://buytech-lilac.vercel.app/", // ya deployed frontend URL
+    origin: "https://buytech-lilac.vercel.app", // ya deployed frontend URL
     credentials: true,
   })
 );
