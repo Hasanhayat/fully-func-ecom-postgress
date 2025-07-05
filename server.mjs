@@ -226,6 +226,16 @@ app.post("/api/v1/products", async (req, res) => {
   }
 });
 
+app.get("/users", async (req, res) => {
+  try {
+    const users = await db.query("SELECT id, first_name, last_name, email, profile_img, role, phone, created_at FROM users");
+    res.json({message: "Users fetched successfully", users: users.rows});
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 // Middleware to serve static files
 let __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "frontend", "dist")));
