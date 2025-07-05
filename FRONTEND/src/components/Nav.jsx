@@ -57,7 +57,9 @@ const Nav = () => {
               }
             }}
           />
-          <User className="w-5 h-5 hover:text-[#af8d86] cursor-pointer" />
+          <Link to="/profile">
+            <User className="w-5 h-5 hover:text-[#af8d86] cursor-pointer" />
+          </Link>
           <ShoppingCart className="w-5 h-5 hover:text-[#af8d86] cursor-pointer" />
           {isAdmin && (
             <Link to="/admin">

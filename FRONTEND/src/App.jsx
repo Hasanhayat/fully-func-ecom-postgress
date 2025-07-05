@@ -17,6 +17,7 @@ import Admin from "./admin/Admin";
 import Shop from "./pages/Shop";
 import AddProduct from "./admin/AddProduct";
 import AllUsers from "./admin/AllUsers";
+import Profile from "./pages/Profile";
 
 axios.defaults.withCredentials = true; // Important for sending cookies
 
@@ -27,6 +28,8 @@ function App() {
   // Fetch user on initial load
   React.useEffect(() => {
     const checkLogin = async () => {
+      console.log(state);
+      
       try {
         setIsLoading(true);
         const res = await api.get("/profile");
@@ -61,6 +64,7 @@ function App() {
               <Route path="/users" element={<AllUsers />} />
               <Route path="*" element={<Home />} />
               <Route path="/shop" element={<Shop />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
           </>
         ) : state.isLogin ? (
@@ -70,6 +74,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="*" element={<Home />} />
               <Route path="/shop" element={<Shop />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
           </>
         ) : (
