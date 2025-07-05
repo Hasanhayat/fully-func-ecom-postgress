@@ -14,6 +14,7 @@ import "./App.css";
 import api from "./api";
 import { Loader2 } from "lucide-react";
 import Admin from "./admin/Admin";
+import Shop from "./pages/Shop";
 
 axios.defaults.withCredentials = true; // Important for sending cookies
 
@@ -63,6 +64,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="*" element={<Home />} />
+              <Route path="/shop" element={<Shop />} />
             </Routes>
           </>
         ) : (

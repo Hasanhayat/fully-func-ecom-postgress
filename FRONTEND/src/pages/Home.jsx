@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const Home = () => {
   return (
@@ -15,7 +16,7 @@ const Home = () => {
             Explore a curated collection of fashion essentials that define who you are.
           </p>
           <button className="bg-[#e2b4a9] hover:bg-[#f4d7dc] text-[#260c1a] font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-            Shop Now
+            <Link to='/shop'>Shop Now</Link>
           </button>
         </div>
 
