@@ -12,7 +12,7 @@ import Home from "./pages/Home";
 import Nav from "./components/Nav";
 import "./App.css";
 import api from "./api";
-import { Loader2, Users } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import Admin from "./admin/Admin";
 import Shop from "./pages/Shop";
 import AddProduct from "./admin/AddProduct";
@@ -27,9 +27,7 @@ function App() {
 
   // Fetch user on initial load
   React.useEffect(() => {
-    const checkLogin = async () => {
-      console.log(state);
-      
+    const checkLogin = async () => {      
       try {
         setIsLoading(true);
         const res = await api.get("/profile");
@@ -55,7 +53,7 @@ function App() {
       <CssBaseline />
       <ToastContainer position="bottom-right" theme="dark" />
       <Container sx={{ py: 5 }}>
-        {state.user.role == 1 && state.isLogin ? (
+        {state?.user?.role == 1 && state?.isLogin ? (
           <>
             <Nav />
             <Routes>
@@ -67,7 +65,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
             </Routes>
           </>
-        ) : state.isLogin ? (
+        ) : state?.isLogin ? (
           <>
             <Nav />
             <Routes>
