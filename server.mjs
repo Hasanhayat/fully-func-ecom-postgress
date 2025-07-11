@@ -243,8 +243,8 @@ app.get("/api/v1/users", async (req, res) => {
 // Middleware to serve static files
 let __dirname = path.resolve();
 // app.use(express.static(path.join(__dirname, "frontend", "dist")));
-app.use("/", express.static(path.join(__dirname, "./frontend/dist")));
-app.use("/*splat", express.static(path.join(__dirname, "frontend", "dist")));
+app.use("/", express.static(path.join(__dirname, "./FRONTEND/dist")));
+app.use("/*splat", express.static(path.join(__dirname, "FRONTEND", "dist")));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
