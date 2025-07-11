@@ -13,7 +13,7 @@ const JWT_SECRET = process.env.SECRET_TOKEN;
 
 app.use(
   cors({
-    origin: "https://buytech-lilac.vercel.app", // ya deployed frontend URL
+    origin: ["https://buytech-lilac.vercel.app","http://localhost:3002","*"], // ya deployed frontend URL
     credentials: true,
   })
 );
@@ -242,7 +242,7 @@ app.get("/api/v1/users", async (req, res) => {
 
 // Middleware to serve static files
 let __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "frontend", "dist")));
+// app.use(express.static(path.join(__dirname, "frontend", "dist")));
 app.use("/", express.static(path.join(__dirname, "./frontend/dist")));
 app.use("/*splat", express.static(path.join(__dirname, "frontend", "dist")));
 
